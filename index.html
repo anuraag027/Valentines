@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine 💖</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #ffe6f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #d63384;
+      margin-bottom: 10px;
+    }
+
+    img {
+      width: 220px;
+      max-width: 80%;
+      border-radius: 12px;
+      margin: 15px 0;
+    }
+
+    .buttons {
+      position: relative;
+      height: 120px;
+      margin-top: 20px;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      transition: transform 0.2s ease;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+    }
+
+    #noBtn {
+      background-color: #adb5bd;
+      color: #333;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .celebrate {
+      background: #fff0f6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="question">Will you be my Valentine? 🥺</h1>
+
+    <img
+      id="gif"
+      src="https://media.giphy.com/media/6mlQKvOnONCLXqzv9A/giphy.gif"
+      alt="Puppy eyes"
+    />
+
+    <div class="buttons">
+      <button id="noBtn">No</button>
+      <button id="yesBtn">Yes 💘</button>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const gif = document.getElementById("gif");
+    const question = document.getElementById("question");
+    const body = document.body;
+
+    function moveNoButton() {
+      const padding = 20;
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+    }
+
+    // Mobile: jump BEFORE tap registers
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // Desktop fallback
+    noBtn.addEventListener("mouseenter", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      question.textContent = "YAY!! 💃🕺💖";
+      gif.src =
+        "https://media.giphy.com/media/26gsjCZpPolPr3sBy/giphy.gif";
+      body.classList.add("celebrate");
+      noBtn.style.display = "none";
+      yesBtn.style.display = "none";
+    });
+  </script>
+</body>
+</html>
