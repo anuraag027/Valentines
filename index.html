@@ -72,6 +72,8 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
+      transition: left 0.2s ease, top 0.2s ease;
+
     }
 
     .celebrate {
@@ -97,41 +99,44 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const gif = document.getElementById("gif");
-    const question = document.getElementById("question");
-    const body = document.body;
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const gif = document.getElementById("gif");
+  const question = document.getElementById("question");
+  const body = document.body;
 
-    function moveNoButton() {
-      const padding = 20;
-      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+  function moveNoButton() {
+    const container = document.querySelector(".buttons");
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
+    const padding = 10;
 
-      noBtn.style.left = `${randomX}px`;
-      noBtn.style.top = `${randomY}px`;
-    }
+    const maxX = containerRect.width - btnRect.width - padding;
+    const maxY = containerRect.height - btnRect.height - padding;
 
-    // Mobile: jump BEFORE tap registers
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-    // Desktop fallback
-    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
+  }
 
-    yesBtn.addEventListener("click", () => {
-      question.textContent = "YAY!! 💃🕺💖";
-      gif.src =
-        "https://media.giphy.com/media/26gsjCZpPolPr3sBy/giphy.gif";
-      body.classList.add("celebrate");
-      noBtn.style.display = "none";
-      yesBtn.style.display = "none";
-    });
-  </script>
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  noBtn.addEventListener("mouseenter", moveNoButton);
+
+  yesBtn.addEventListener("click", () => {
+    question.textContent = "YAY!! 💖🎉";
+    gif.src = "https://media.giphy.com/media/26gsjCZpPolPr3sBy/giphy.gif";
+    body.classList.add("celebrate");
+    noBtn.style.display = "none";
+    yesBtn.style.display = "none";
+  });
+</script>
+
 </body>
 </html>
