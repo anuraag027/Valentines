@@ -20,6 +20,11 @@
       justify-content: center;
       text-align: center;
       overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    body.celebrate {
+      background: #fff0f6;
     }
 
     .container {
@@ -42,11 +47,11 @@
     }
 
     .buttons {
-  position: relative;
-  height: 140px;
-  margin-top: 20px;
-  overflow: hidden;
-}
+      position: relative;
+      height: 140px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
 
     button {
       font-size: 1.1rem;
@@ -55,7 +60,6 @@
       border: none;
       cursor: pointer;
       position: absolute;
-      transition: transform 0.2s ease;
     }
 
     #yesBtn {
@@ -70,14 +74,20 @@
       background-color: #adb5bd;
       color: #333;
       top: 0;
-      left: 50%;
-      /* transform: translateX(-50%); */
+      left: 0;
       transition: left 0.2s ease, top 0.2s ease;
-
     }
 
-    .celebrate {
-      background: #fff0f6;
+    #backBtn {
+      display: none;
+      margin-top: 20px;
+      background-color: #ffffff;
+      color: #d63384;
+      border: 2px solid #d63384;
+      font-size: 1rem;
+      padding: 10px 22px;
+      border-radius: 30px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -96,47 +106,72 @@
       <button id="noBtn">No</button>
       <button id="yesBtn">Yes 💘</button>
     </div>
+
+    <button id="backBtn">⬅ Back</button>
   </div>
 
   <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const gif = document.getElementById("gif");
-  const question = document.getElementById("question");
-  const body = document.body;
-
-  function moveNoButton() {
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const backBtn = document.getElementById("backBtn");
+    const gif = document.getElementById("gif");
+    const question = document.getElementById("question");
+    const body = document.body;
     const container = document.querySelector(".buttons");
-    const containerRect = container.getBoundingClientRect();
-    const btnRect = noBtn.getBoundingClientRect();
 
-    const padding = 10;
+    function centerNoButton() {
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
 
-    const maxX = containerRect.width - btnRect.width - padding;
-    const maxY = containerRect.height - btnRect.height - padding;
+      noBtn.style.left = `${(containerRect.width - btnRect.width) / 2}px`;
+      noBtn.style.top = `0px`;
+    }
 
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    function moveNoButton() {
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const padding = 10;
 
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
-  }
+      const maxX = containerRect.width - btnRect.width - padding;
+      const maxY = containerRect.height - btnRect.height - padding;
 
-  noBtn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    moveNoButton();
-  });
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
 
-  noBtn.addEventListener("mouseenter", moveNoButton);
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+    }
 
-  yesBtn.addEventListener("click", () => {
-    question.textContent = "YAY!! 💖🎉";
-    gif.src = "https://media.giphy.com/media/26gsjCZpPolPr3sBy/giphy.gif";
-    body.classList.add("celebrate");
-    noBtn.style.display = "none";
-    yesBtn.style.display = "none";
-  });
-</script>
+    window.addEventListener("load", centerNoButton);
 
+    noBtn.addEventListener("mouseenter", moveNoButton);
+
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    yesBtn.addEventListener("click", () => {
+      question.textContent = "YAY!! 💖🎉";
+      gif.src = "https://media.giphy.com/media/26gsjCZpPolPr3sBy/giphy.gif";
+      body.classList.add("celebrate");
+
+      noBtn.style.display = "none";
+      yesBtn.style.display = "none";
+      backBtn.style.display = "inline-block";
+    });
+
+    backBtn.addEventListener("click", () => {
+      question.textContent = "Will you be my Valentine? 🥺";
+      gif.src = "https://media.giphy.com/media/6mlQKvOnONCLXqzv9A/giphy.gif";
+      body.classList.remove("celebrate");
+
+      noBtn.style.display = "block";
+      yesBtn.style.display = "block";
+      backBtn.style.display = "none";
+
+      centerNoButton();
+    });
+  </script>
 </body>
 </html>
